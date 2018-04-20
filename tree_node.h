@@ -114,7 +114,7 @@ void dfs(TreeNode* root)
     root->parent->updateScore(root->node_score, root);
   }
 
-  root->printNode();
+  //root->printNode();
 }
 
 void printScorePath(TreeNode* root)
