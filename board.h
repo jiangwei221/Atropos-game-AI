@@ -12,6 +12,7 @@
 #include <iostream>
 #include <sstream>
 #include <assert.h>
+#include <algorithm>
 
 using namespace std;
 
