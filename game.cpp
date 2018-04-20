@@ -14,9 +14,29 @@ using namespace std;
 int main (int argc, char **argv)
 {
     //board class test
-    Board test_b = Board("[13][302][1003][30002][100003][3000002][121212]LastPlay:null");
-    //Board test_b = Board("[13][302][1003][31002][100003][3000002][121212]LastPlay:(1,3,1,3)");
+    //Board test_b = Board("[13][302][1003][30002][100003][3000002][121212]LastPlay:null");
+    Board test_b = Board("[13][302][1003][31002][100003][3000002][121212]LastPlay:(1,3,1,3)");
     test_b.printBoard();
     test_b.printMoves();
+
+    for(size_t i = 0; i < test_b.possible_moves.size(); i++)
+    {
+        cout<<test_b.fakeInput(test_b.possible_moves[i])<<endl;
+    } 
+    cout << endl;     
+
+    // TreeNode test_tn = TreeNode("[13][302][1003][30002][100003][3000002][121212]LastPlay:null", 0);
+    TreeNode test_tn = TreeNode("[13][302][1003][31002][100003][3000002][121212]LastPlay:(1,3,1,3)", 0, nullptr);
+    cout << endl;     
+
+    dfs(&test_tn);
+
+    cout << "root node score provider is:" << endl;
+    printScorePath(&test_tn);
+    cout << endl;
+    printOutput(&test_tn);
+    //test_tn.score_provider->printNode();
+    //test_b.printMoves();
+
     return 0;
 }

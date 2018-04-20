@@ -10,6 +10,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -32,7 +33,7 @@ class Board
     //constructor
     Board(string input)
     {
-        cout << "input string: " << input << endl;
+        //cout << "input string: " << input << endl;
         score = 0;
         //assume the string is from stdin
         //parse the string
@@ -157,11 +158,14 @@ class Board
     //score evaluater
     void evaluateBoard()
     {
+        //very very simple strategy
+        score = possible_moves.size();
     }
 
     //score getter
     double getScore()
     {
+        evaluateBoard();
         return score;
     }
 
@@ -563,6 +567,51 @@ class Board
     const vector< vector<int> >& getPossibleMoves()
     {
         return possible_moves;
+    }
+
+    //for child nodes
+    string fakeInput(vector<int> move)
+    {
+        assert(move.size() == 3);
+
+        ostringstream os;
+
+        for (size_t row = 0; row < b.size(); row++)
+        {
+            os << "[";
+            for (size_t col = 0; col < b[row].size(); col++)
+            {
+                if(row == move[1] && col == move[2])
+                {
+                    os << move[0];
+                }
+                else
+                    os << b[row][col];
+            }
+            os << "]";
+        }
+        
+        os << "LastPlay:";
+        int c = move[0];
+        int h = b.size()-1 - move[1];
+        int ld = move[2];
+        int rd = b.size() - h - ld;
+        os << "("<<c<<","<<h<<","<<ld<<","<<rd<<")";
+
+        string s = os.str();
+        return s;
+    }
+
+    //for final output
+    //this output move is the pre_move
+    //sample out: std::cout << "(1,2,2,2)";
+    void printPreMove()
+    {
+        int c = pre_move[0];
+        int h = b.size()-1 - pre_move[1];
+        int ld = pre_move[2];
+        int rd = b.size() - h - ld;
+        cout << "(" << c << "," << h << "," << ld << "," << rd << ")" << endl;
     }
 };
 
