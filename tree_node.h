@@ -39,7 +39,7 @@ class TreeNode
     TreeNode(string input, int d, TreeNode* p) : current_b(input), c_depth(d), node_score(0)
     {
       if( c_depth%2 == 0 )//if this is a max node
-        node_score = DBL_MIN;
+        node_score = -DBL_MAX;
       else //if this is a mini node
         node_score = DBL_MAX;
       const vector< vector<int> >& possible_moves = current_b.getPossibleMoves();
