@@ -13,18 +13,15 @@ using namespace std;
 
 int main (int argc, char *argv[])
 {
-    cout << argv[1] << endl;
     TreeNode test_tn2 = TreeNode(argv[1], 0, nullptr);
-
-    cout << endl;     
 
     ab_dfs(&test_tn2);
 
-    cout << "root node score provider is:" << endl;
-    printScorePath(&test_tn2);
-    cout << endl;
+    // cout << "root node score provider is:" << endl;
+    // printScorePath(&test_tn2);
+    // cout << endl;
     printOutput(&test_tn2);
-    cout << "ab_dfs times: " << ab_counter << endl;
+    // cout << "ab_dfs times: " << ab_counter << endl;
 
     //test_tn.score_provider->printNode();
     //test_b.printMoves();
