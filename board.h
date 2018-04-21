@@ -177,7 +177,7 @@ class Board
         //complex static evaluator
         //eval the static board
         
-        double sub_score1 = double(possible_moves.size());
+        double sub_score1 = -double(possible_moves.size());
         double sub_score2 = 0;
         for(size_t i = 0; i < possible_moves.size(); i++)
         {
@@ -186,7 +186,7 @@ class Board
                 sub_score2--;
         }
         //double sub_score2 = 0;//(double)rand() / (double)RAND_MAX;
-        double weight = 1.0/6.0;
+        double weight = 0.5;//1.0/6.0;
         score = (1.0 - weight) * sub_score1 + weight * sub_score2;
 
     }

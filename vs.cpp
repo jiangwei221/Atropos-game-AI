@@ -13,6 +13,8 @@ using namespace std;
 
 int main (int argc, char *argv[])
 {
+    assert(argc == 2);
+
     TreeNode test_tn2 = TreeNode(argv[1], 0, nullptr);
 
     ab_dfs(&test_tn2);
