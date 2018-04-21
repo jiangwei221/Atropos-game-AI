@@ -2,6 +2,8 @@
 //BU CS 440/640 2018 Spring
 //Wei Jiang and Yitian Lin
 
+//tree node class and minimax search algo
+
 #ifndef TREE_NODE_H
 #define TREE_NODE_H
 
@@ -108,20 +110,6 @@ class TreeNode
           beta = node_score;
         }
       }
-      // if( c_depth%2 == 0 )//if this is a max node
-      // {
-      //   if(input_score > alpha)
-      //   {
-      //     alpha = input_score;
-      //   }
-      // }
-      // else //if this is a mini node
-      // {
-      //   if(input_score < beta)
-      //   {
-      //     beta = input_score;
-      //   }
-      // }
     }
 
     vector<double> getAB()
@@ -138,9 +126,8 @@ class TreeNode
     }
 };
 
-//search algo
-//minimax, two player
-//first without alpha-beta prunning
+//minimax search algo
+//without alpha-beta prunning
 //using dfs to traverse the tree
 
 int dfs_counter = 0;
@@ -165,33 +152,21 @@ void dfs(TreeNode* root)
   //root->printNode();
 }
 
-//search algo
-//alpha-beta prunning
+//minimax search algo
+//with alpha-beta prunning
 
 int ab_counter = 0;
 
 void ab_dfs(TreeNode* root)//, double pre_alpha, double pre_beta)
 {
   ab_counter++;
-  // for(size_t i = 0; i < root->children.size(); i++)
-  // {
-  //   root->children[i]->setAB(root->getAB());
-  // }
-  //bool pass_value = true;
   for(size_t i = 0; i < root->children.size(); i++)
   {
     //get parent alpha/beta values;
     root->children[i]->setAB(root->getAB());
-    //if alpha > beta here?
     ab_dfs(root->children[i]);
-    //or if here?
     if(root->alpha > root->beta)
-    // if(false)
-    //if(root->children[i]->alpha - root->children[i]->beta >= 0.000001)
-    {
-      //pass_value = false;
       break;
-    }
   }
   if ( root->c_depth == depth_limit )
   {

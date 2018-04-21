@@ -37,8 +37,8 @@ int main (int argc, char **argv)
     printOutput(&test_tn);
     cout << "dfs times: " << dfs_counter << endl;
 
-    TreeNode test_tn2 = TreeNode("[13][302][1003][31002][100003][3000002][121212]LastPlay:(1,3,1,3)", 0, nullptr);
     //TreeNode test_tn2 = TreeNode("[13][302][1003][30002][100003][3000002][121212]LastPlay:null", 0, nullptr);
+    TreeNode test_tn2 = TreeNode("[13][302][1003][31002][100003][3000002][121212]LastPlay:(1,3,1,3)", 0, nullptr);
 
     cout << endl;     
 
