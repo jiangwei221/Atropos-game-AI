@@ -161,13 +161,12 @@ class Board
     void evaluateBoard()
     {
         //very very simple strategy
-        score = possible_moves.size();
+        score = -0.954 * double(possible_moves.size());
     }
 
     //score getter
     double getScore()
     {
-        evaluateBoard();
         return score;
     }
 

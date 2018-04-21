@@ -23,9 +23,9 @@ int main (int argc, char **argv)
     {
         cout<<test_b.fakeInput(test_b.possible_moves[i])<<endl;
     } 
-    cout << endl;     
+    cout << endl;
 
-    // TreeNode test_tn = TreeNode("[13][302][1003][30002][100003][3000002][121212]LastPlay:null", 0);
+    //TreeNode test_tn = TreeNode("[13][302][1003][30002][100003][3000002][121212]LastPlay:null", 0, nullptr);
     TreeNode test_tn = TreeNode("[13][302][1003][31002][100003][3000002][121212]LastPlay:(1,3,1,3)", 0, nullptr);
     cout << endl;     
 
@@ -35,6 +35,21 @@ int main (int argc, char **argv)
     printScorePath(&test_tn);
     cout << endl;
     printOutput(&test_tn);
+    cout << "dfs times: " << dfs_counter << endl;
+
+    TreeNode test_tn2 = TreeNode("[13][302][1003][31002][100003][3000002][121212]LastPlay:(1,3,1,3)", 0, nullptr);
+    //TreeNode test_tn2 = TreeNode("[13][302][1003][30002][100003][3000002][121212]LastPlay:null", 0, nullptr);
+
+    cout << endl;     
+
+    ab_dfs(&test_tn2);
+
+    cout << "root node score provider is:" << endl;
+    printScorePath(&test_tn2);
+    cout << endl;
+    printOutput(&test_tn2);
+    cout << "ab_dfs times: " << ab_counter << endl;
+
     //test_tn.score_provider->printNode();
     //test_b.printMoves();
 

@@ -10,7 +10,7 @@
 #include <math.h>
 #include <float.h>
 
-const int depth_limit = 3;
+const int depth_limit = (int)5;
 
 class TreeNode
 {
@@ -36,7 +36,8 @@ class TreeNode
     double beta;
 
     //constructor
-    TreeNode(string input, int d, TreeNode* p) : current_b(input), c_depth(d), node_score(0)
+    TreeNode(string input, int d, TreeNode* p) : current_b(input), c_depth(d), node_score(0),
+                                                  alpha(-DBL_MAX), beta(DBL_MAX)
     {
       if( c_depth%2 == 0 )//if this is a max node
         node_score = -DBL_MAX;
@@ -56,56 +57,104 @@ class TreeNode
       parent = p;
 
       score_provider = nullptr;
-      // cout << "current depth: " << c_depth << ", num_children: " << children.size() 
-      //       << ", current scores: " << current_b.getScore()<< endl;
+
+
     }
 
     void printNode()
     {
       cout << "current depth: " << c_depth << ", num_children: " << children.size() 
-            << ", current scores: " << node_score << endl;
+            << ", current scores: " << node_score 
+            << ", alpha: " << alpha 
+            << ", beta: " << beta << endl;
     }
 
     //for non-leaf nodes
     void updateScore(double input_score, TreeNode* input_provider)
     {
       //cout << "c_depth: " << c_depth << " node_score: " << node_score << endl;
-      if( c_depth%2 == 0 )//if it is a max node
+      if( c_depth%2 == 0 )//if this is a max node
       {
         if(input_score > node_score)
         {
           node_score = input_score;
           score_provider = input_provider;
         }
-        // node_score = input_score > node_score? input_score : node_score;
-        // if(input_score > node_score)
       }
-      else 
+      else //if this is a mini node
       {
         if(input_score < node_score)
         {
           node_score = input_score;
           score_provider = input_provider;
         }
-        //node_score = input_score < node_score? input_score : node_score;
       }
     }
 
-    //search algo
-    //minimax, two player
-    //first without alpha-beta prunning
-    //using dfs to traverse the tree
+    void updateScoreAB(double input_score, TreeNode* input_provider)
+    {
+      this->updateScore(input_score, input_provider);
+      if( c_depth%2 == 0 )//if this is a max node
+      {
+        if(node_score > alpha)
+        {
+          alpha = node_score;
+        }
+      }
+      else //if this is a mini node
+      {
+        if(node_score < beta)
+        {
+          beta = node_score;
+        }
+      }
+      // if( c_depth%2 == 0 )//if this is a max node
+      // {
+      //   if(input_score > alpha)
+      //   {
+      //     alpha = input_score;
+      //   }
+      // }
+      // else //if this is a mini node
+      // {
+      //   if(input_score < beta)
+      //   {
+      //     beta = input_score;
+      //   }
+      // }
+    }
+
+    vector<double> getAB()
+    {
+      vector<double> res = {alpha, beta};
+      return res;
+    }
+
+    void setAB(vector <double> input_ab)
+    {
+      assert(input_ab.size() == 2);
+      alpha = input_ab[0];
+      beta = input_ab[1];
+    }
 };
 
+//search algo
+//minimax, two player
+//first without alpha-beta prunning
+//using dfs to traverse the tree
+
+int dfs_counter = 0;
 
 void dfs(TreeNode* root)
 {
+  dfs_counter++;
   for(size_t i = 0; i < root->children.size(); i++)
   {
     dfs(root->children[i]);
   }
   if ( root->c_depth == depth_limit )
   {
+    root->current_b.evaluateBoard();
     root->node_score = root->current_b.getScore();
   }
   //pass value to parent
@@ -113,7 +162,47 @@ void dfs(TreeNode* root)
   {
     root->parent->updateScore(root->node_score, root);
   }
+  //root->printNode();
+}
 
+//search algo
+//alpha-beta prunning
+
+int ab_counter = 0;
+
+void ab_dfs(TreeNode* root)//, double pre_alpha, double pre_beta)
+{
+  ab_counter++;
+  // for(size_t i = 0; i < root->children.size(); i++)
+  // {
+  //   root->children[i]->setAB(root->getAB());
+  // }
+  //bool pass_value = true;
+  for(size_t i = 0; i < root->children.size(); i++)
+  {
+    //get parent alpha/beta values;
+    root->children[i]->setAB(root->getAB());
+    //if alpha > beta here?
+    ab_dfs(root->children[i]);
+    //or if here?
+    if(root->alpha > root->beta)
+    // if(false)
+    //if(root->children[i]->alpha - root->children[i]->beta >= 0.000001)
+    {
+      //pass_value = false;
+      break;
+    }
+  }
+  if ( root->c_depth == depth_limit )
+  {
+    root->current_b.evaluateBoard();
+    root->node_score = root->current_b.getScore();
+  }
+  //pass value to parent
+  if(root->c_depth != 0)
+  {
+    root->parent->updateScoreAB(root->node_score, root);
+  }
   //root->printNode();
 }
 
