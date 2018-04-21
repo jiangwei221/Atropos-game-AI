@@ -26,7 +26,8 @@ int main (int argc, char **argv)
     cout << endl;
 
     //TreeNode test_tn = TreeNode("[13][302][1003][30002][100003][3000002][121212]LastPlay:null", 0, nullptr);
-    TreeNode test_tn = TreeNode("[13][302][1003][31002][100003][3000002][121212]LastPlay:(1,3,1,3)", 0, nullptr);
+    //TreeNode test_tn = TreeNode("[13][302][1003][31002][100003][3000002][121212]LastPlay:(1,3,1,3)", 0, nullptr);
+    TreeNode test_tn = TreeNode("[13][332][1323][30002][100003][3000002][10000003][300000002][12121212]LastPlay:(2,6,2,1)", 0, nullptr);
     cout << endl;     
 
     dfs(&test_tn);
@@ -38,7 +39,8 @@ int main (int argc, char **argv)
     cout << "dfs times: " << dfs_counter << endl;
 
     //TreeNode test_tn2 = TreeNode("[13][302][1003][30002][100003][3000002][121212]LastPlay:null", 0, nullptr);
-    TreeNode test_tn2 = TreeNode("[13][302][1003][31002][100003][3000002][121212]LastPlay:(1,3,1,3)", 0, nullptr);
+    //TreeNode test_tn2 = TreeNode("[13][302][1003][31002][100003][3000002][121212]LastPlay:(1,3,1,3)", 0, nullptr);
+    TreeNode test_tn2 = TreeNode("[13][332][1323][30002][100003][3000002][10000003][300000002][12121212]LastPlay:(2,6,2,1)", 0, nullptr);
 
     cout << endl;     
 

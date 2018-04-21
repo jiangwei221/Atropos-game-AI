@@ -13,6 +13,7 @@
 #include <sstream>
 #include <assert.h>
 #include <algorithm>
+#include <random>
 
 using namespace std;
 
@@ -107,6 +108,15 @@ class Board
             pre_move.push_back(b.size()-1 - temp_pre[1]); //row
             pre_move.push_back(temp_pre[2]); //col
         }
+        else //trick else branch
+        {
+            int c = 1;
+            int h = int((b.size()-2)/2.0 + 0.5);
+            int ld = int((b[h].size()-2)/2.0 + 0.5);
+            int rd = b.size() - h - ld;
+            cout << "(" << 1 << "," << h << "," << ld << "," << rd << ")";
+            exit(0);
+        }
         temp_pre.clear();
 
         //build possible moves
@@ -161,7 +171,24 @@ class Board
     void evaluateBoard()
     {
         //very very simple strategy
-        score = -0.954 * double(possible_moves.size());
+        //score = 0.954 * double(possible_moves.size());
+        //score = (double)rand() / RAND_MAX;
+
+        //complex static evaluator
+        //eval the static board
+        
+        double sub_score1 = double(possible_moves.size());
+        double sub_score2 = 0;
+        for(size_t i = 0; i < possible_moves.size(); i++)
+        {
+            assert(possible_moves[i].size() == 3);
+            if(possible_moves[i][0] == pre_move[0])
+                sub_score2--;
+        }
+        //double sub_score2 = 0;//(double)rand() / (double)RAND_MAX;
+        double weight = 1.0/6.0;
+        score = (1.0 - weight) * sub_score1 + weight * sub_score2;
+
     }
 
     //score getter
@@ -301,7 +328,7 @@ class Board
         vector<int> colors;
         colors.push_back(b[temp1[0]][temp1[1]]);
         colors.push_back(b[temp2[0]][temp2[1]]);
-        colors.push_back(move[3]);
+        colors.push_back(move[0]);
 
         alive = alive && !isFormingDeadTri(temp_node_locs, colors);
 
@@ -612,7 +639,7 @@ class Board
         int h = b.size()-1 - pre_move[1];
         int ld = pre_move[2];
         int rd = b.size() - h - ld;
-        cout << "(" << c << "," << h << "," << ld << "," << rd << ")" << endl;
+        cout << "(" << c << "," << h << "," << ld << "," << rd << ")";
     }
 };
 
