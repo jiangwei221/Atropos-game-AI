@@ -1,0 +1,48 @@
+jiangwei - A
+random   - B
+
+A has lookahead depth 5
+board size 7
+
+game 1:
+A first
+A has won in 8 moves!
+
+game 2:
+A first
+A has won in 26 moves!
+
+game 3:
+A first
+A has won in 28 moves!
+
+game 4:
+B first
+B has won in 28 moves!
+
+game 5:
+A first
+A has won in 28 moves!
+
+game 6:
+B first
+B has won in 28 moves!
+
+game 7:
+B first
+A has won in 21 moves!
+
+game 8:
+A first
+B has won in 25 moves!
+
+game 9:
+B first
+A has won in 25 moves!
+
+game 10:
+A first
+B has won in 23 moves!
+
+A wins 6 games
+B wins 4 games

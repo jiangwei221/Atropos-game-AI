@@ -1,6 +1,6 @@
 //Atropos game AI
 //BU CS 440/640 2018 Spring
-//Wei Jiang and Yitian Lin
+//Wei Jiang
 
 //game board class
 
@@ -95,7 +95,7 @@ class Board
             {
                 continue;
             }
-            if (start_flag == true && input[i]>='0' && input[i]<='9')
+            if (start_flag == true && input[i] >= '0' && input[i] <= '9')
             {
                 int cc = input[i] - '0';
                 temp_pre.push_back(cc);
@@ -104,15 +104,15 @@ class Board
         }
         if (temp_pre.size() == 4)
         {
-            pre_move.push_back(temp_pre[0]); //color
-            pre_move.push_back(b.size()-1 - temp_pre[1]); //row
-            pre_move.push_back(temp_pre[2]); //col
+            pre_move.push_back(temp_pre[0]);                //color
+            pre_move.push_back(b.size() - 1 - temp_pre[1]); //row
+            pre_move.push_back(temp_pre[2]);                //col
         }
         else //trick else branch
         {
             int c = 1;
-            int h = int((b.size()-2)/2.0 + 0.5);
-            int ld = int((b[h].size()-2)/2.0 + 0.5);
+            int h = int((b.size() - 2) / 2.0 + 0.5);
+            int ld = int((b[h].size() - 2) / 2.0 + 0.5);
             int rd = b.size() - h - ld;
             cout << "(" << 1 << "," << h << "," << ld << "," << rd << ")";
             exit(0);
@@ -136,8 +136,8 @@ class Board
             cout << endl;
         }
 
-        cout << "previous move: " <<endl;
-        if(pre_move.size() == 0)
+        cout << "previous move: " << endl;
+        if (pre_move.size() == 0)
         {
             cout << "null" << endl;
         }
@@ -145,7 +145,7 @@ class Board
         {
             for (size_t i = 0; i < pre_move.size(); i++)
             {
-                cout<< pre_move[i] << " ";
+                cout << pre_move[i] << " ";
             }
         }
 
@@ -155,14 +155,13 @@ class Board
     //print all possible moves
     void printMoves()
     {
-        cout << "all " << possible_moves.size() <<" possible moves : " << endl;
+        cout << "all " << possible_moves.size() << " possible moves : " << endl;
         for (size_t i = 0; i < possible_moves.size(); i++)
         {
             cout << "possible move " << i << " : ("
-                << possible_moves[i][0] << ", " 
-                << possible_moves[i][1] << ", "
-                << possible_moves[i][2] <<")" << endl;
-
+                 << possible_moves[i][0] << ", "
+                 << possible_moves[i][1] << ", "
+                 << possible_moves[i][2] << ")" << endl;
         }
         cout << endl;
     }
@@ -176,19 +175,18 @@ class Board
 
         //complex static evaluator
         //eval the static board
-        
+
         double sub_score1 = -double(possible_moves.size());
         double sub_score2 = 0;
-        for(size_t i = 0; i < possible_moves.size(); i++)
+        for (size_t i = 0; i < possible_moves.size(); i++)
         {
             assert(possible_moves[i].size() == 3);
-            if(possible_moves[i][0] == pre_move[0])
+            if (possible_moves[i][0] == pre_move[0])
                 sub_score2--;
         }
         //double sub_score2 = 0;//(double)rand() / (double)RAND_MAX;
-        double weight = 0.5;//1.0/6.0;
+        double weight = 0.5; //1.0/6.0;
         score = (1.0 - weight) * sub_score1 + weight * sub_score2;
-
     }
 
     //score getter
@@ -206,25 +204,25 @@ class Board
         vector< vector<int> > dead_moves;
 
         //potential bug when pre_move is null
-        vector<int> pre_move_loc;// = {pre_move[1], pre_move[2]};
-        if(pre_move.size() != 0)
+        vector<int> pre_move_loc; // = {pre_move[1], pre_move[2]};
+        if (pre_move.size() != 0)
         {
             pre_move_loc.push_back(pre_move[1]);
             pre_move_loc.push_back(pre_move[2]);
         }
         vector< vector<int> > adj_empty = findAdjacentEmpty(pre_move_loc);
 
-        if(pre_move.size() == 0 || adj_empty.size() == 0)//test all position that is empty
+        if (pre_move.size() == 0 || adj_empty.size() == 0) //test all position that is empty
         {
             //cout<<"pre_move.size() == 0 || adj_empty.size() == 0"<<endl;
             vector< vector<int> > all_empty = findAllEmpty();
-            for(size_t i = 0; i < all_empty.size(); i++)
+            for (size_t i = 0; i < all_empty.size(); i++)
             {
                 for (int c_i = 1; c_i < 4; c_i++)
                 {
                     //try all color from 1 - 3
                     vector<int> c_move = {c_i, all_empty[i][0], all_empty[i][1]};
-                    if(moveChecker(c_move))
+                    if (moveChecker(c_move))
                     {
                         num_alive_moves++;
                         alive_moves.push_back(c_move);
@@ -235,18 +233,18 @@ class Board
                         dead_moves.push_back(c_move);
                     }
                 }
-            }        
+            }
         }
-        else//test all positions that is adjacent to previous move
+        else //test all positions that is adjacent to previous move
         {
             //cout<<adj_empty.size()<<endl;
-            for(size_t i = 0; i < adj_empty.size(); i++)
+            for (size_t i = 0; i < adj_empty.size(); i++)
             {
                 for (int c_i = 1; c_i < 4; c_i++)
                 {
                     //try all color from 1 - 3
                     vector<int> c_move = {c_i, adj_empty[i][0], adj_empty[i][1]};
-                    if(moveChecker(c_move))
+                    if (moveChecker(c_move))
                     {
                         num_alive_moves++;
                         alive_moves.push_back(c_move);
@@ -277,7 +275,7 @@ class Board
         //move = (color, row, col);
         try
         {
-            if ((move.size() != 3) || (!(move[0]>=1 && move[0]<=3)))
+            if ((move.size() != 3) || (!(move[0] >= 1 && move[0] <= 3)))
                 throw "wrong move vector!";
         }
         catch (const char *msg)
@@ -285,7 +283,7 @@ class Board
             cerr << msg << endl;
             terminate();
         }
-        
+
         bool alive = true; //alive: no 3-color-triangle formed after this move
 
         //check is this move alive based on current board setting
@@ -294,11 +292,11 @@ class Board
         vector<int> loc = {move[1], move[2]};
         vector< vector<int> > adjs = findAdjacent(loc);
 
-        for(size_t i = 0; i < adjs.size()-1; i++)
+        for (size_t i = 0; i < adjs.size() - 1; i++)
         {
             //get 3 temp nodes
             vector<int> temp1 = adjs[i];
-            vector<int> temp2 = adjs[i+1];
+            vector<int> temp2 = adjs[i + 1];
             vector<int> temp3 = loc;
             vector< vector<int> > temp_node_locs;
             temp_node_locs.push_back(temp1);
@@ -316,7 +314,7 @@ class Board
 
         //corner case:
         //get 3 temp nodes
-        vector<int> temp1 = adjs[adjs.size()-1];
+        vector<int> temp1 = adjs[adjs.size() - 1];
         vector<int> temp2 = adjs[0];
         vector<int> temp3 = loc;
         vector< vector<int> > temp_node_locs;
@@ -349,7 +347,7 @@ class Board
 
         //corner case:
         //1. if 2 nodes share same row as b.size()-2,
-        //then 
+        //then
         //if the third node is above, the col is equal to the former node of lower two nodes
         //if the third node is below, the col is equal to the former node of lower two nodes
 
@@ -363,37 +361,37 @@ class Board
         int num_nodes_hi_row = 0;
         int num_nodes_lo_row = 0;
 
-        for(size_t i = 0; i < three_nodes.size(); i++)
+        for (size_t i = 0; i < three_nodes.size(); i++)
         {
-            if(three_nodes[i][0] < lo_row)
+            if (three_nodes[i][0] < lo_row)
                 lo_row = three_nodes[i][0];
-            if(three_nodes[i][0] > hi_row)
+            if (three_nodes[i][0] > hi_row)
                 hi_row = three_nodes[i][0];
         }
 
-        for(size_t i = 0; i < three_nodes.size(); i++)
+        for (size_t i = 0; i < three_nodes.size(); i++)
         {
-            if(three_nodes[i][0] == lo_row)
+            if (three_nodes[i][0] == lo_row)
                 num_nodes_lo_row++;
-            if(three_nodes[i][0] == hi_row)
+            if (three_nodes[i][0] == hi_row)
                 num_nodes_hi_row++;
         }
 
         int dup_row = num_nodes_hi_row > num_nodes_lo_row ? hi_row : lo_row;
 
-        if(hi_row - lo_row != 1)
+        if (hi_row - lo_row != 1)
             return false;
 
         assert(hi_row - lo_row == 1);
 
-        int dup_col[2] = {0, 0}; 
+        int dup_col[2] = {0, 0};
         int dup_col_ind = 0;
         int sing_row;
         int sing_col;
 
-        for(size_t i = 0; i < three_nodes.size(); i++)
+        for (size_t i = 0; i < three_nodes.size(); i++)
         {
-            if(three_nodes[i][0] == dup_row)
+            if (three_nodes[i][0] == dup_row)
             {
                 dup_col[dup_col_ind] = three_nodes[i][1];
                 dup_col_ind++;
@@ -405,50 +403,49 @@ class Board
             }
         }
 
-        int n = sizeof(dup_col)/sizeof(dup_col[0]);
-        sort(dup_col, dup_col+n);
+        int n = sizeof(dup_col) / sizeof(dup_col[0]);
+        sort(dup_col, dup_col + n);
 
         assert(dup_col_ind == 2);
 
-        if(dup_col[1] - dup_col[0] != 1)
+        if (dup_col[1] - dup_col[0] != 1)
             return false;
 
-        if(dup_row == b.size()-2)
+        if (dup_row == b.size() - 2)
         {
             //corner case:
             //1. if 2 nodes share same row as b.size()-2,
-            //then 
-            if(dup_row == hi_row) //if the third node is above, the col is equal to the former node of lower two nodes
+            //then
+            if (dup_row == hi_row) //if the third node is above, the col is equal to the former node of lower two nodes
             {
-                if(sing_col == dup_col[0])
+                if (sing_col == dup_col[0])
                     return true;
                 else
                     return false;
             }
             else //if the third node is below, the col is equal to the former node of lower two nodes
             {
-                if(sing_col == dup_col[0])
+                if (sing_col == dup_col[0])
                     return true;
                 else
                     return false;
             }
         }
-        else if (dup_row == b.size()-1)
+        else if (dup_row == b.size() - 1)
         {
             //2. if 2 nodes share same row as b.size()-1,
             //then
-            if(sing_row == dup_row-1 && sing_col == dup_col[1])//the third node must be above, the col is equal to the latter node of lower two nodes
+            if (sing_row == dup_row - 1 && sing_col == dup_col[1]) //the third node must be above, the col is equal to the latter node of lower two nodes
                 return true;
             else
                 return false;
-
         }
         else
         {
             //if the third node is above, the col is equal to the former node of lower two nodes
-            if(sing_row < dup_row)
+            if (sing_row < dup_row)
             {
-                if(sing_col == dup_col[0])
+                if (sing_col == dup_col[0])
                     return true;
                 else
                     return false;
@@ -456,7 +453,7 @@ class Board
             //if the third node is below, the col is equal to the latter node of lower two nodes
             else
             {
-                if(sing_col == dup_col[1])
+                if (sing_col == dup_col[1])
                     return true;
                 else
                     return false;
@@ -472,16 +469,16 @@ class Board
         assert(three_nodes[0].size() == 2);
 
         bool res;
-        if(!isFormingTri(three_nodes))
+        if (!isFormingTri(three_nodes))
             res = false;
         else
         {
             int colors[3] = {in_colors[0],
                              in_colors[1],
-                             in_colors[2]}; 
-            int n = sizeof(colors)/sizeof(colors[0]);
-            sort(colors, colors+n);
-            if(colors[0] == 1 && colors[1] == 2 && colors[2] == 3)
+                             in_colors[2]};
+            int n = sizeof(colors) / sizeof(colors[0]);
+            sort(colors, colors + n);
+            if (colors[0] == 1 && colors[1] == 2 && colors[2] == 3)
                 res = true;
             else
                 res = false;
@@ -492,32 +489,32 @@ class Board
     vector< vector<int> > findAdjacent(vector<int> center)
     {
         vector< vector<int> > res;
-        if(center.size() == 0)//if the center is null
+        if (center.size() == 0) //if the center is null
         {
             return res;
         }
-        
+
         //test
         //cout<<center.size()<<endl;
 
         assert(center.size() == 2);
-        if(center[0] == 0 || center[0] == b.size()-1 || center[1] == 0 || center[1] == b[center[0]].size()-1)
+        if (center[0] == 0 || center[0] == b.size() - 1 || center[1] == 0 || center[1] == b[center[0]].size() - 1)
         {
             cerr << "can not find adjacent nodes for the border!" << endl;
             terminate();
         }
-        else if(center[0] == b.size()-2) //if center node is on the b.size()-2 line
+        else if (center[0] == b.size() - 2) //if center node is on the b.size()-2 line
         {
             int i = center[0];
             int j = center[1];
 
             //north, west, east, north-west, south, south-west
-            vector<int> north = {i-1, j};
-            vector<int> south = {i+1, j};
-            vector<int> west = {i, j-1};
-            vector<int> east = {i, j+1};
-            vector<int> north_west = {i-1, j-1};
-            vector<int> south_west = {i+1, j-1};
+            vector<int> north = {i - 1, j};
+            vector<int> south = {i + 1, j};
+            vector<int> west = {i, j - 1};
+            vector<int> east = {i, j + 1};
+            vector<int> north_west = {i - 1, j - 1};
+            vector<int> south_west = {i + 1, j - 1};
 
             //push by the clockwise order, start from north
             res.push_back(north);
@@ -527,18 +524,18 @@ class Board
             res.push_back(west);
             res.push_back(north_west);
         }
-        else//if center node is NOT on the b.size()-2 line
+        else //if center node is NOT on the b.size()-2 line
         {
             int i = center[0];
             int j = center[1];
 
             //north, south, west, east, north-west, south-east
-            vector<int> north = {i-1, j};
-            vector<int> south = {i+1, j};
-            vector<int> west = {i, j-1};
-            vector<int> east = {i, j+1};
-            vector<int> north_west = {i-1, j-1};
-            vector<int> south_east = {i+1, j+1};
+            vector<int> north = {i - 1, j};
+            vector<int> south = {i + 1, j};
+            vector<int> west = {i, j - 1};
+            vector<int> east = {i, j + 1};
+            vector<int> north_west = {i - 1, j - 1};
+            vector<int> south_east = {i + 1, j + 1};
 
             //push by the clockwise order, start from north
             res.push_back(north);
@@ -555,7 +552,7 @@ class Board
     vector< vector<int> > findAdjacentEmpty(vector<int> center)
     {
         vector< vector<int> > res;
-        if(center.size() == 0)//if the center is null
+        if (center.size() == 0) //if the center is null
         {
             return res;
         }
@@ -563,9 +560,9 @@ class Board
 
         vector< vector<int> > all = findAdjacent(center);
 
-        for(size_t i = 0; i < all.size(); i++)
+        for (size_t i = 0; i < all.size(); i++)
         {
-            if(b[all[i][0]][all[i][1]] == 0)
+            if (b[all[i][0]][all[i][1]] == 0)
                 res.push_back(all[i]);
         }
 
@@ -592,7 +589,7 @@ class Board
     }
 
     //possible moves getter
-    const vector< vector<int> >& getPossibleMoves()
+    const vector< vector<int> > &getPossibleMoves()
     {
         return possible_moves;
     }
@@ -609,7 +606,7 @@ class Board
             os << "[";
             for (size_t col = 0; col < b[row].size(); col++)
             {
-                if(row == move[1] && col == move[2])
+                if (row == move[1] && col == move[2])
                 {
                     os << move[0];
                 }
@@ -618,13 +615,13 @@ class Board
             }
             os << "]";
         }
-        
+
         os << "LastPlay:";
         int c = move[0];
-        int h = b.size()-1 - move[1];
+        int h = b.size() - 1 - move[1];
         int ld = move[2];
         int rd = b.size() - h - ld;
-        os << "("<<c<<","<<h<<","<<ld<<","<<rd<<")";
+        os << "(" << c << "," << h << "," << ld << "," << rd << ")";
 
         string s = os.str();
         return s;
@@ -636,7 +633,7 @@ class Board
     void printPreMove()
     {
         int c = pre_move[0];
-        int h = b.size()-1 - pre_move[1];
+        int h = b.size() - 1 - pre_move[1];
         int ld = pre_move[2];
         int rd = b.size() - h - ld;
         cout << "(" << c << "," << h << "," << ld << "," << rd << ")";

@@ -2,5 +2,5 @@
 add_compile_options(-std=c++11)
 cmake_minimum_required (VERSION 2.6)
 project (game)
-add_executable(game game.cpp)
-add_executable(vs vs.cpp)
+#add_executable(game game.cpp)
+add_executable(jiangweiPlayer jiangweiPlayer.cpp)

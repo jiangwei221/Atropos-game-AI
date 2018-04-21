@@ -1,9 +1,9 @@
 //Atropos game AI
 //BU CS 440/640 2018 Spring
-//Wei Jiang and Yitian Lin
+//Wei Jiang
 
 //compile command: make
-//run command: 
+//run command:
 
 #include <iostream>
 #include "tree_node.h"
@@ -11,7 +11,7 @@
 
 using namespace std;
 
-int main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     assert(argc == 2);
 

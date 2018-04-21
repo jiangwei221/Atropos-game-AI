@@ -1,9 +1,9 @@
 //Atropos game AI
 //BU CS 440/640 2018 Spring
-//Wei Jiang and Yitian Lin
+//Wei Jiang
 
 //compile command: make
-//run command: 
+//run command:
 
 #include <iostream>
 #include "tree_node.h"
@@ -11,7 +11,7 @@
 
 using namespace std;
 
-int main (int argc, char **argv)
+int main(int argc, char **argv)
 {
     //board class test
     //Board test_b = Board("[13][302][1003][30002][100003][3000002][121212]LastPlay:null");
@@ -19,16 +19,16 @@ int main (int argc, char **argv)
     test_b.printBoard();
     test_b.printMoves();
 
-    for(size_t i = 0; i < test_b.possible_moves.size(); i++)
+    for (size_t i = 0; i < test_b.possible_moves.size(); i++)
     {
-        cout<<test_b.fakeInput(test_b.possible_moves[i])<<endl;
-    } 
+        cout << test_b.fakeInput(test_b.possible_moves[i]) << endl;
+    }
     cout << endl;
 
     //TreeNode test_tn = TreeNode("[13][302][1003][30002][100003][3000002][121212]LastPlay:null", 0, nullptr);
     //TreeNode test_tn = TreeNode("[13][302][1003][31002][100003][3000002][121212]LastPlay:(1,3,1,3)", 0, nullptr);
     TreeNode test_tn = TreeNode("[13][332][1323][30002][100003][3000002][10000003][300000002][12121212]LastPlay:(2,6,2,1)", 0, nullptr);
-    cout << endl;     
+    cout << endl;
 
     dfs(&test_tn);
 
@@ -42,7 +42,7 @@ int main (int argc, char **argv)
     //TreeNode test_tn2 = TreeNode("[13][302][1003][31002][100003][3000002][121212]LastPlay:(1,3,1,3)", 0, nullptr);
     TreeNode test_tn2 = TreeNode("[13][332][1323][30002][100003][3000002][10000003][300000002][12121212]LastPlay:(2,6,2,1)", 0, nullptr);
 
-    cout << endl;     
+    cout << endl;
 
     ab_dfs(&test_tn2);
 
