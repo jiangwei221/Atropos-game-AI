@@ -185,7 +185,7 @@ class Board
                 sub_score2--;
         }
         //double sub_score2 = 0;//(double)rand() / (double)RAND_MAX;
-        double weight = 0.5; //1.0/6.0;
+        double weight = 0.01; //1.0/6.0;
         score = (1.0 - weight) * sub_score1 + weight * sub_score2;
     }
 
