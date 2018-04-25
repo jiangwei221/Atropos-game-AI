@@ -50,11 +50,12 @@ public:
     else //if this is a mini node
       node_score = DBL_MAX;
     const vector< vector<int> > &possible_moves = current_b.getPossibleMoves();
-    if (c_depth < depth_limit)
+    if (c_depth < depth_limit && current_b.alive_before_move)
     {
       int next_depth = c_depth + 1;
       for (size_t i = 0; i < possible_moves.size(); i++)
       {
+
         TreeNode *temp = new TreeNode(current_b.fakeInput(possible_moves[i]), next_depth, this);
         children.push_back(temp);
       }
@@ -132,27 +133,28 @@ public:
 //without alpha-beta prunning
 //using dfs to traverse the tree
 
-int dfs_counter = 0;
+// int dfs_counter = 0;
 
-void dfs(TreeNode *root)
-{
-  dfs_counter++;
-  for (size_t i = 0; i < root->children.size(); i++)
-  {
-    dfs(root->children[i]);
-  }
-  if (root->c_depth == tree_depth)
-  {
-    root->current_b.evaluateBoard();
-    root->node_score = root->current_b.getScore();
-  }
-  //pass value to parent
-  if (root->c_depth != 0)
-  {
-    root->parent->updateScore(root->node_score, root);
-  }
-  //root->printNode();
-}
+// void dfs(TreeNode *root)
+// {
+//   dfs_counter++;
+//   for (size_t i = 0; i < root->children.size(); i++)
+//   {
+//     //if(root->children[i]->current_b.alive_after_move)
+//     dfs(root->children[i]);
+//   }
+//   if (root->c_depth == tree_depth || root->current_b.alive_after_move == false)
+//   {
+//     root->current_b.evaluateBoard();
+//     root->node_score = root->current_b.getScore();
+//   }
+//   //pass value to parent
+//   if (root->c_depth != 0)
+//   {
+//     root->parent->updateScore(root->node_score, root);
+//   }
+//   //root->printNode();
+// }
 
 //minimax search algo
 //with alpha-beta prunning
@@ -170,7 +172,7 @@ void ab_dfs(TreeNode *root) //, double pre_alpha, double pre_beta)
     if (root->alpha > root->beta)
       break;
   }
-  if (root->c_depth == tree_depth)
+  if (root->c_depth == tree_depth || root->children.size() == 0)
   {
     root->current_b.evaluateBoard();
     root->node_score = root->current_b.getScore();

@@ -28,6 +28,8 @@ class Board
     vector<int> pre_move;
 
     //future moves, for building search tree
+    bool alive_before_move;
+    bool alive_after_move;
     vector< vector<int> > possible_moves;
 
     //score for this board config, for smart searching algorithm
@@ -120,6 +122,8 @@ class Board
         temp_pre.clear();
 
         //build possible moves
+        //alive_after_move = true;
+        alive_before_move = moveChecker(pre_move);
         buildPossibleMoves();
     }
 
@@ -178,6 +182,7 @@ class Board
 
         double sub_score1 = -double(possible_moves.size());
         double sub_score2 = 0;
+        double sub_score3 = alive_before_move?0:-100;
         for (size_t i = 0; i < possible_moves.size(); i++)
         {
             assert(possible_moves[i].size() == 3);
@@ -185,8 +190,8 @@ class Board
                 sub_score2--;
         }
         //double sub_score2 = 0;//(double)rand() / (double)RAND_MAX;
-        double weight = 0.01; //1.0/6.0;
-        score = (1.0 - weight) * sub_score1 + weight * sub_score2;
+        double weight = 0.3; //1.0/6.0;
+        score = (1.0 - weight) * sub_score1 + weight * sub_score2 + sub_score3;
     }
 
     //score getter
@@ -261,10 +266,12 @@ class Board
         if (num_alive_moves == 0)
         {
             //set possible_moves to dead_moves
+            alive_after_move = false;
             possible_moves = dead_moves;
         }
         else
         {
+            alive_after_move = true;
             possible_moves = alive_moves;
         }
     }
