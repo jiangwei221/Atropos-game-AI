@@ -17,6 +17,8 @@
 
 using namespace std;
 
+const int depth_limit = (int)3;
+
 class Board
 {
   public:
@@ -179,10 +181,14 @@ class Board
 
         //complex static evaluator
         //eval the static board
-
-        double sub_score1 = -double(possible_moves.size());
+        bool is_odd = depth_limit%2;
+        double flip = is_odd?1:1;
+        double sub_score1 = double(possible_moves.size());
         double sub_score2 = 0;
         double sub_score3 = alive_before_move?0:-100;
+        double sub_score4 = 0;
+        if(sub_score3 == 0)
+            sub_score4 = alive_after_move?0:100;
         for (size_t i = 0; i < possible_moves.size(); i++)
         {
             assert(possible_moves[i].size() == 3);
@@ -191,7 +197,7 @@ class Board
         }
         //double sub_score2 = 0;//(double)rand() / (double)RAND_MAX;
         double weight = 0.3; //1.0/6.0;
-        score = (1.0 - weight) * sub_score1 + weight * sub_score2 + sub_score3;
+        score = (1.0 - weight) * sub_score1 + weight * sub_score2 + flip*sub_score3 + flip*sub_score4;
     }
 
     //score getter

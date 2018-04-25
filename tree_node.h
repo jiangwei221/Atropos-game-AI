@@ -12,7 +12,6 @@
 #include <math.h>
 #include <float.h>
 
-const int depth_limit = (int)5;
 int tree_depth = 0;
 
 class TreeNode
